@@ -14,7 +14,7 @@ jobs:
       libraryName: crosswindow
       cmakeInstallationPath: crosswindow-installation
       tagName: 2.3.1
-      mingwTargetZip: crosswindow-${{ github.ref_name }}-mingw64-x86_64-posix-seh-rev0-8.1.0.zip
+      msvc2019TargetZip: crosswindow-${{ github.ref_name }}-msvc2019.zip
     steps:
       - name: git clone
         shell: cmd
@@ -44,24 +44,25 @@ jobs:
           gcc --version &&^
           set CD_LINUX=%CD:\=/%
           cd CrossWindow && ^
-          cmake.exe -G "MinGW Makefiles" ^
+          cmake.exe -G "Visual Studio 16 2019" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" ^
           -B./cmake-build &&^
           cd cmake-build &&^
-          cmake --build . &&^
+          cmake --build . --config Release --target ALL_BUILD -v -- /maxcpucount &&^
+          dir /s &&^
           cmake --install . 
-            
+          
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           directory: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}"
-          filename: "${{ env.mingwTargetZip }}"
+          filename: "${{ env.msvc2019TargetZip }}"
 
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          artifacts: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.msvc2019TargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
