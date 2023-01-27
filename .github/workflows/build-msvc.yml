@@ -55,12 +55,12 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}"
+          directory: "CrossWindow"
           filename: "${{ env.msvc2022TargetZip }}"
 
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.msvc2022TargetZip }}"
+          artifacts: "CrossWindow/${{ env.msvc2022TargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
