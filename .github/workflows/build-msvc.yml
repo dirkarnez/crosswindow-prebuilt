@@ -38,10 +38,8 @@ jobs:
         shell: cmd
         run: |
           set PATH=^
-          ${{ github.workspace }}\mingw64;^
-          ${{ github.workspace }}\mingw64\bin;^
-          ${{ github.workspace }}\cmake-3.22.2-windows-x86_64\bin;
-          gcc --version &&^
+          ${{ github.workspace }}\cmake-3.22.2-windows-x86_64\bin;^
+          %PATH%
           set CD_LINUX=%CD:\=/%
           cd CrossWindow && ^
           cmake.exe -G "Visual Studio 16 2019" ^
