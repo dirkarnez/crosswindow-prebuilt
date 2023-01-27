@@ -14,7 +14,7 @@ jobs:
       libraryName: crosswindow
       cmakeInstallationPath: crosswindow-installation
       tagName: 2.3.1
-      msvc2019TargetZip: crosswindow-${{ github.ref_name }}-msvc2019.zip
+      msvc2022TargetZip: crosswindow-${{ github.ref_name }}-msvc2022.zip
     steps:
       - name: git clone
         shell: cmd
@@ -42,7 +42,7 @@ jobs:
           %PATH%
           set CD_LINUX=%CD:\=/%
           cd CrossWindow && ^
-          cmake.exe -G "Visual Studio 16 2019" ^
+          cmake.exe -G "Visual Studio 17 2022" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" ^
           -B./cmake-build &&^
@@ -56,11 +56,11 @@ jobs:
         with:
           type: 'zip'
           directory: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}"
-          filename: "${{ env.msvc2019TargetZip }}"
+          filename: "${{ env.msvc2022TargetZip }}"
 
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.msvc2019TargetZip }}"
+          artifacts: "CrossWindow/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.msvc2022TargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
